@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Promise Demo - User Fetcher</title>
+</head>
+<body>
+  <h2>User Data Fetcher</h2>
+  <button id="fetchBtn">Fetch Users</button>
+  <div id="output"></div>
+
+  <script>
+    const fetchBtn = document.getElementById("fetchBtn");
+    const outputDiv = document.getElementById("output");
+
+    fetchBtn.addEventListener("click", () => {
+      outputDiv.innerHTML = "⏳ Fetching data...";
+
+      // Step 1: Create a Promise
+      const userDataPromise = new Promise((resolve, reject) => {
+        fetch("https://jsonplaceholder.typicode.com/users")
+          .then((res) => {
+            if (!res.ok) {
+              reject("❌ Server returned error");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            resolve(data); // resolve Promise with data
+          })
+          .catch((err) => {
+            reject("❌ Network Error or Invalid URL");
+          });
+      });
+
+      // Step 2: Handle the Promise
+      userDataPromise
+        .then((users) => {
+          outputDiv.innerHTML = `<h4>✅ Users Fetched:</h4><ul>${users
+            .map((user) => `<li>${user.name} (${user.email})</li>`)
+            .join("")}</ul>`;
+        })
+        .catch((err) => {
+          outputDiv.innerHTML = `<p style="color: red">${err}</p>`;
+        })
+        .finally(() => {
+          console.log("API call completed ✔️");
+        });
+    });
+  </script>
+</body>
+</html>

@@ -24,7 +24,7 @@ function chainCalculator(initialValue) {
         currentValue *= value;
         return this; // Returns the same object for chaining
       },
-      result() {
+       result() {
         
         return currentValue;
       }
@@ -33,5 +33,5 @@ function chainCalculator(initialValue) {
   
   const calc = chainCalculator(10);
   const finalResult = calc.add(5).divide(0).result();
-  console.log(finalResult); // Output: 13
+  console.log(finalResult); 
   

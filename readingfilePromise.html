@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>File Reader with Promise</title>
+</head>
+<body>
+  <h2>📄 Read File using Promise</h2>
+  <input type="file" id="fileInput" />
+  <pre id="output" style="background: #f0f0f0; padding: 10px;"></pre>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const output = document.getElementById("output");
+
+    // Function to read file using Promise
+    const readFileAsText = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          resolve(reader.result); // file content
+        };
+
+        reader.onerror = () => {
+          reject("❌ Error reading file");
+        };
+
+        reader.readAsText(file); // start reading
+      });
+    };
+
+    // Triggered when user selects a file
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      output.textContent = "⏳ Reading file...";
+
+      readFileAsText(file)
+        .then((content) => {
+          output.textContent = content; // show file content
+        })
+        .catch((err) => {
+          output.textContent = err; // show error
+        })
+        .finally(() => {
+          console.log("📂 File read operation completed.");
+        });
+    });
+  </script>
+</body>
+</html>

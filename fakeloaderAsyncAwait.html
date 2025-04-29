@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Async JS Example</title>
+</head>
+<body>
+  <h1>Async JavaScript Demo</h1>
+  <p id="status">Loading...</p>
+
+  <script>
+    // Simulate a loader
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Fetch user data
+    async function fetchUsers() {
+      document.getElementById("status").textContent = "Loading users...";
+
+      // Fake delay
+      await wait(2000);
+
+      try {
+        const res = await fetch("https://jsonplaceholder.typicode.com/users");
+        const users = await res.json();
+
+        document.getElementById("status").textContent = "Users loaded!";
+        console.log("Fetched Users:");
+        users.forEach(user => {
+          console.log(`${user.name} - ${user.email}`);
+        });
+
+      } catch (error) {
+        document.getElementById("status").textContent = "Failed to load users.";
+        console.error("Error:", error);
+      }
+    }
+
+    fetchUsers();
+  </script>
+</body>
+</html>
